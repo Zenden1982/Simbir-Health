@@ -1,17 +1,15 @@
 package com.simbir.health.hospital_service.Service;
 
 import java.util.List;
-import java.util.UUID;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
-import com.simbir.health.hospital_service.Class.Hospital;
-import com.simbir.health.hospital_service.Class.Room;
 import com.simbir.health.hospital_service.Class.DTO.HospitalCreateUpdateDTO;
 import com.simbir.health.hospital_service.Class.DTO.HospitalReadDTO;
+import com.simbir.health.hospital_service.Class.Hospital;
+import com.simbir.health.hospital_service.Class.Room;
 import com.simbir.health.hospital_service.Repository.HospitalRepository;
 import com.simbir.health.hospital_service.Utils.Mapper;
 
@@ -25,15 +23,11 @@ public class HospitaServiceImpl implements HospitalService {
 
     private final Mapper mapper;
 
-    private final KafkaTemplate<String, String> kafkaTemplate;
-
     @Override
     public HospitalReadDTO createHospital(HospitalCreateUpdateDTO hospitalDTO) {
 
         Hospital savedHospital = hospitalRepository.save(mapper.mapToEntity(hospitalDTO));
         hospitalRepository.save(savedHospital);
-
-        kafkaTemplate.send("auth-request", UUID.randomUUID().toString());
         return mapper.mapToReadDTO(savedHospital);
     }
 
@@ -79,6 +73,13 @@ public class HospitaServiceImpl implements HospitalService {
     @Override
     public void deleteHospital(Long id) {
         hospitalRepository.deleteById(id);
+    }
+
+    @Override
+    public List<String> getRoomsByHospitalId(Long id) {
+        Hospital hospital = hospitalRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Hospital not found"));
+        return hospital.getRooms().stream().map(Room::getName).toList();
     }
 
 }

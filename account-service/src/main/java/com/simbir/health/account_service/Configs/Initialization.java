@@ -40,11 +40,36 @@ public class Initialization implements ApplicationRunner {
         userRepository.save(admin);
     }
 
+    public void initUser() {
+        User user = new User();
+        user.setFirstName("user");
+        user.setLastName("user");
+        user.setUsername("user");
+        user.setPassword("dXNlcg==");
+        saveRoleIfNotExists("ROLE_USER");
+        user.setRoles(List.of(roleRepository.findByName("ROLE_USER").get()));
+        userRepository.save(user);
+    }
+
+    public void initDoctor() {
+        User doctor = new User();
+        doctor.setFirstName("doctor");
+        doctor.setLastName("doctor");
+        doctor.setUsername("doctor");
+        doctor.setPassword("ZG9jdG9y");
+        saveRoleIfNotExists("ROLE_DOCTOR");
+        doctor.setRoles(List.of(roleRepository.findByName("ROLE_DOCTOR").get()));
+        userRepository.save(doctor);
+    }
+
     @Override
     public void run(ApplicationArguments args) throws Exception {
-        initAdmin();
         saveRoleIfNotExists("ROLE_USER");
         saveRoleIfNotExists("ROLE_DOCTOR");
+        saveRoleIfNotExists("ROLE_ADMIN");
+        initAdmin();
+        initUser();
+        initDoctor();
     }
 
 }

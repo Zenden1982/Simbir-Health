@@ -1,5 +1,7 @@
 package com.simbir.health.hospital_service.Controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -35,6 +37,12 @@ public class HospitalController {
     public ResponseEntity<HospitalReadDTO> getHospitalById(@PathVariable Long id) {
         HospitalReadDTO hospital = hospitalService.getHospitalById(id);
         return new ResponseEntity<>(hospital, HttpStatus.OK);
+    }
+
+    @GetMapping("/{id}/Rooms")
+    public ResponseEntity<List<String>> getRoomsByHospitalId(@PathVariable Long id) {
+
+        return ResponseEntity.ok(hospitalService.getRoomsByHospitalId(id));
     }
 
     @GetMapping

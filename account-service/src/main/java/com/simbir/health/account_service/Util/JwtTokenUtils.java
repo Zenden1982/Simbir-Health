@@ -37,7 +37,7 @@ public class JwtTokenUtils {
     @Value("f9JgP5qXwXmZTQmQ5zKc8v8h6ZTQbYqP9wRpL5cU5sA=")
     private String secret;
 
-    private Duration accessTokenDuration = Duration.ofSeconds(50);
+    private Duration accessTokenDuration = Duration.ofSeconds(120);
 
     private Duration refreshTokenDuration = Duration.ofDays(1);
 

@@ -1,4 +1,4 @@
-package com.simbir.health.timetable_service.Class;
+package com.simbir.health.timetable_service.Class.DTO;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
