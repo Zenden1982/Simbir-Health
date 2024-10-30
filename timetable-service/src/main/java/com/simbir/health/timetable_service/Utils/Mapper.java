@@ -2,7 +2,9 @@ package com.simbir.health.timetable_service.Utils;
 
 import org.springframework.stereotype.Component;
 
+import com.simbir.health.timetable_service.Class.Appointment;
 import com.simbir.health.timetable_service.Class.Timetable;
+import com.simbir.health.timetable_service.Class.DTO.AppointmentDTO;
 import com.simbir.health.timetable_service.Class.DTO.TimetableCreateUpdateDTO;
 import com.simbir.health.timetable_service.Class.DTO.TimetableReadDTO;
 
@@ -19,4 +21,11 @@ public class Mapper {
                 null);
     }
 
+    public AppointmentDTO mapToDTO(Appointment appointment) {
+        return new AppointmentDTO(appointment.getId(), appointment.getTime());
+    }
+
+    public Appointment mapToEntity(AppointmentDTO dto) {
+        return new Appointment(null, dto.getTime(), null, false, null);
+    }
 }

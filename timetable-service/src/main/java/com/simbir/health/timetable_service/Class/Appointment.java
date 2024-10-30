@@ -22,9 +22,13 @@ public class Appointment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private LocalDateTime time;
+
+    private Long userId;
+
+    private Boolean isBooked = false;
     @ManyToOne
     @JoinColumn(name = "timetable_id")
     private Timetable timetable;
 
-    private LocalDateTime time;
 }
