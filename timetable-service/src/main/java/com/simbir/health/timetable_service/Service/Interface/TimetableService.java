@@ -25,4 +25,6 @@ public interface TimetableService {
     List<AppointmentDTO> getAppointmentsForTimetable(Long id);
 
     AppointmentDTO createAppointmentForTimetable(Long id, LocalDateTime time, String token);
+
+    void cancelBookedAppointment(Long id);
 }

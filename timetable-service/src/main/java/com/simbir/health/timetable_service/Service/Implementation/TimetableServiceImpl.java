@@ -7,12 +7,12 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.simbir.health.timetable_service.Class.Appointment;
-import com.simbir.health.timetable_service.Class.Timetable;
 import com.simbir.health.timetable_service.Class.DTO.AppointmentDTO;
 import com.simbir.health.timetable_service.Class.DTO.HospitalDTO;
 import com.simbir.health.timetable_service.Class.DTO.TimetableCreateUpdateDTO;
 import com.simbir.health.timetable_service.Class.DTO.TimetableReadDTO;
 import com.simbir.health.timetable_service.Class.DTO.UserDTO;
+import com.simbir.health.timetable_service.Class.Timetable;
 import com.simbir.health.timetable_service.Client.AccountServiceClient;
 import com.simbir.health.timetable_service.Client.HospitalServiceClient;
 import com.simbir.health.timetable_service.Repository.AppointmentRepository;
@@ -151,6 +151,15 @@ public class TimetableServiceImpl implements TimetableService {
         appointment.setIsBooked(true);
         appointment.setUserId(user.getId());
         return mapper.mapToDTO(appointmentRepository.save(appointment));
+    }
+
+    @Override
+    public void cancelBookedAppointment(Long id) {
+        Appointment appointment = appointmentRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Appointment not found"));
+        appointment.setIsBooked(false);
+        appointment.setUserId(null);
+        appointmentRepository.save(appointment);
     }
 
 }

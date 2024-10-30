@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.simbir.health.timetable_service.Class.DTO.AppointmentDTO;
 import com.simbir.health.timetable_service.Class.DTO.TimetableCreateUpdateDTO;
 import com.simbir.health.timetable_service.Class.DTO.TimetableReadDTO;
-import com.simbir.health.timetable_service.Service.Interface.AppointmentService;
 import com.simbir.health.timetable_service.Service.Interface.TimetableService;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -30,8 +29,6 @@ import lombok.RequiredArgsConstructor;
 public class TimetableController {
 
     private final TimetableService timetableService;
-
-    private final AppointmentService appointmentService;
 
     @PostMapping
     public ResponseEntity<TimetableReadDTO> createTimetable(@RequestBody TimetableCreateUpdateDTO dto,
@@ -104,7 +101,7 @@ public class TimetableController {
 
     @DeleteMapping("/Appointments/{id}")
     public ResponseEntity<Void> deleteAppointment(@PathVariable Long id) {
-        appointmentService.delete(id);
+        timetableService.cancelBookedAppointment(id);
         return ResponseEntity.ok().build();
     }
 }
