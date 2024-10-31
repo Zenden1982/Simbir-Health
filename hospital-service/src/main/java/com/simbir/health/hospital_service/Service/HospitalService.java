@@ -9,15 +9,15 @@ import com.simbir.health.hospital_service.Class.DTO.HospitalReadDTO;
 
 public interface HospitalService {
 
-    HospitalReadDTO createHospital(HospitalCreateUpdateDTO hospitalDTO);
+    HospitalReadDTO createHospital(HospitalCreateUpdateDTO hospitalDTO, String token);
 
-    HospitalReadDTO getHospitalById(Long id);
+    HospitalReadDTO getHospitalById(Long id, String token);
 
-    Page<HospitalReadDTO> getAllHospitals(int from, int count);
+    Page<HospitalReadDTO> getAllHospitals(int from, int count, String token);
 
-    HospitalReadDTO updateHospital(Long id, HospitalCreateUpdateDTO hospitalDTO);
+    HospitalReadDTO updateHospital(Long id, HospitalCreateUpdateDTO hospitalDTO, String token);
 
-    List<String> getRoomsByHospitalId(Long id);
+    List<String> getRoomsByHospitalId(Long id, String token);
 
-    void deleteHospital(Long id);
+    void deleteHospital(Long id, String token);
 }

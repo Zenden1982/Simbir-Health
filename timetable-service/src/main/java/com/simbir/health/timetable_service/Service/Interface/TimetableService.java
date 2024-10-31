@@ -10,21 +10,22 @@ import com.simbir.health.timetable_service.Class.DTO.TimetableReadDTO;
 public interface TimetableService {
     TimetableReadDTO createTimetable(TimetableCreateUpdateDTO dto, String token);
 
-    TimetableReadDTO updateTimetable(Long id, TimetableCreateUpdateDTO dto);
+    TimetableReadDTO updateTimetable(Long id, TimetableCreateUpdateDTO dto, String token);
 
-    void deleteTimetable(Long id);
+    void deleteTimetable(Long id, String token);
 
-    void deleteTimetablesByHospital(Long id);
+    void deleteTimetablesByHospital(Long id, String token);
 
-    List<TimetableReadDTO> getTimetableForHospital(Long hospitalId, LocalDateTime from, LocalDateTime to);
+    List<TimetableReadDTO> getTimetableForHospital(Long hospitalId, LocalDateTime from, LocalDateTime to, String token);
 
-    List<TimetableReadDTO> getTimetableForDoctor(Long doctorId, LocalDateTime from, LocalDateTime to);
+    List<TimetableReadDTO> getTimetableForDoctor(Long doctorId, LocalDateTime from, LocalDateTime to, String token);
 
-    List<TimetableReadDTO> getTimetableForRoom(Long hospitalId, String room, LocalDateTime from, LocalDateTime to);
+    List<TimetableReadDTO> getTimetableForRoom(Long hospitalId, String room, LocalDateTime from, LocalDateTime to,
+            String token);
 
-    List<AppointmentDTO> getAppointmentsForTimetable(Long id);
+    List<AppointmentDTO> getAppointmentsForTimetable(Long id, String token);
 
     AppointmentDTO createAppointmentForTimetable(Long id, LocalDateTime time, String token);
 
-    void cancelBookedAppointment(Long id);
+    void cancelBookedAppointment(Long id, String token);
 }

@@ -20,6 +20,8 @@ import com.simbir.health.hospital_service.Class.DTO.HospitalCreateUpdateDTO;
 import com.simbir.health.hospital_service.Class.DTO.HospitalReadDTO;
 import com.simbir.health.hospital_service.Service.HospitalService;
 
+import jakarta.servlet.http.HttpServletRequest;
+
 @RestController
 @RequestMapping("/Hospitals")
 public class HospitalController {
@@ -28,39 +30,44 @@ public class HospitalController {
     private HospitalService hospitalService;
 
     @PostMapping
-    public ResponseEntity<HospitalReadDTO> createHospital(@RequestBody HospitalCreateUpdateDTO hospitalDTO) {
-        HospitalReadDTO createdHospital = hospitalService.createHospital(hospitalDTO);
+    public ResponseEntity<HospitalReadDTO> createHospital(@RequestBody HospitalCreateUpdateDTO hospitalDTO,
+            HttpServletRequest request) {
+        HospitalReadDTO createdHospital = hospitalService.createHospital(hospitalDTO,
+                request.getHeader("Authorization"));
         return new ResponseEntity<>(createdHospital, HttpStatus.CREATED);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<HospitalReadDTO> getHospitalById(@PathVariable Long id) {
-        HospitalReadDTO hospital = hospitalService.getHospitalById(id);
+    public ResponseEntity<HospitalReadDTO> getHospitalById(@PathVariable Long id, HttpServletRequest request) {
+        HospitalReadDTO hospital = hospitalService.getHospitalById(id, request.getHeader("Authorization"));
         return new ResponseEntity<>(hospital, HttpStatus.OK);
     }
 
     @GetMapping("/{id}/Rooms")
-    public ResponseEntity<List<String>> getRoomsByHospitalId(@PathVariable Long id) {
+    public ResponseEntity<List<String>> getRoomsByHospitalId(@PathVariable Long id, HttpServletRequest request) {
 
-        return ResponseEntity.ok(hospitalService.getRoomsByHospitalId(id));
+        return ResponseEntity.ok(hospitalService.getRoomsByHospitalId(id, request.getHeader("Authorization")));
     }
 
     @GetMapping
-    public ResponseEntity<Page<HospitalReadDTO>> getAllHospitals(@RequestParam int from, @RequestParam int count) {
-        Page<HospitalReadDTO> hospitals = hospitalService.getAllHospitals(from, count);
+    public ResponseEntity<Page<HospitalReadDTO>> getAllHospitals(@RequestParam int from, @RequestParam int count,
+            HttpServletRequest request) {
+        Page<HospitalReadDTO> hospitals = hospitalService.getAllHospitals(from, count,
+                request.getHeader("Authorization"));
         return new ResponseEntity<>(hospitals, HttpStatus.OK);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<HospitalReadDTO> updateHospital(@PathVariable Long id,
-            @RequestBody HospitalCreateUpdateDTO hospitalDTO) {
-        HospitalReadDTO updatedHospital = hospitalService.updateHospital(id, hospitalDTO);
+            @RequestBody HospitalCreateUpdateDTO hospitalDTO, HttpServletRequest request) {
+        HospitalReadDTO updatedHospital = hospitalService.updateHospital(id, hospitalDTO,
+                request.getHeader("Authorization"));
         return new ResponseEntity<>(updatedHospital, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteHospital(@PathVariable Long id) {
-        hospitalService.deleteHospital(id);
+    public ResponseEntity<Void> deleteHospital(@PathVariable Long id, HttpServletRequest request) {
+        hospitalService.deleteHospital(id, request.getHeader("Authorization"));
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

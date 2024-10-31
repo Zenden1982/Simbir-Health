@@ -1,4 +1,4 @@
-package com.simbir.health.account_service.Class.DTO;
+package com.simbir.health.hospital_service.Class.DTO;
 
 import java.util.List;
 
@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserReadDTO {
+public class UserDTO {
 
     private Long id;
 
@@ -20,5 +20,4 @@ public class UserReadDTO {
     private String username;
 
     private List<String> roles;
-
 }

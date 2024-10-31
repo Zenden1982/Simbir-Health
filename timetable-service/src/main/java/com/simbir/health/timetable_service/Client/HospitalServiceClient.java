@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestHeader;
 
 import com.simbir.health.timetable_service.Class.DTO.HospitalDTO;
 
@@ -12,10 +13,9 @@ import com.simbir.health.timetable_service.Class.DTO.HospitalDTO;
 public interface HospitalServiceClient {
 
     @GetMapping("Hospitals/{id}")
-    HospitalDTO getHospitalById(@PathVariable Long id);
+    HospitalDTO getHospitalById(@PathVariable Long id, @RequestHeader("Authorization") String token);
 
     @GetMapping("Hospitals/{id}/Rooms")
-    List<String> getRoomsByHospitalId(@PathVariable Long id);
+    List<String> getRoomsByHospitalId(@PathVariable Long id, @RequestHeader("Authorization") String token);
 
-    // TODO Безопасность
 }
