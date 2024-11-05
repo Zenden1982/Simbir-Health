@@ -17,6 +17,7 @@ import com.simbir.health.account_service.Service.Interface.AccountService;
 import com.simbir.health.account_service.Util.JwtTokenUtils;
 import com.simbir.health.account_service.Util.Mapper;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -32,6 +33,7 @@ public class AccountServiceImpl implements AccountService {
     private final RoleRepository roleRepository;
 
     @Override
+    @Transactional
     public UserReadDTO getUserInformation(String token) {
         User user = userRepository.findByUsername(jwtTokenUtils.getUsernameFromToken(token))
                 .orElseThrow(() -> new RuntimeException("User not found"));
@@ -39,6 +41,7 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
+    @Transactional
     public void updateUser(UserUpdateDTO userUpdateDTO, String token) {
         User user = userRepository.findByUsername(jwtTokenUtils.getUsernameFromToken(token))
                 .orElseThrow(() -> new RuntimeException("User not found"));
@@ -51,12 +54,14 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
+    @Transactional
     public Page<UserReadDTO> getAllUsers(Integer page, Integer size) {
         PageRequest pageable = PageRequest.of(page, size);
         return userRepository.findAll(pageable).map(mapper::userToUserReadDTO);
     }
 
     @Override
+    @Transactional
     public void createUserByAdmin(AdminCreateUpdateUserDTO user) {
         List<Role> role = roleRepository.findAllByNameIn(user.getRoles().stream().map(Role::getName).toList());
         User newUser = User.builder()
@@ -70,6 +75,7 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
+    @Transactional
     public void updateUserByAdmin(AdminCreateUpdateUserDTO user) {
         List<Role> role = roleRepository.findAllByNameIn(user.getRoles().stream().map(Role::getName).toList());
         User existingUser = userRepository.findByUsername(user.getUsername()).get();
@@ -82,6 +88,7 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
+    @Transactional
     public void deleteUserByAdmin(Long id) {
         userRepository.deleteById(id);
     }
